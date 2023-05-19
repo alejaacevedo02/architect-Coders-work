@@ -1,7 +1,5 @@
 package com.devexperto.architectcoders.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -26,18 +24,13 @@ class MainViewModel(
 
     private fun refresh() {
         viewModelScope.launch {
-            _state.value = _state.value.copy(loading = true)
-            //Loading will be false after fetching movies
-            _state.value = UiState(
-                movies = moviesRepository.findPopularMovies().results
-            )
+            _state.value = UiState(loading = true)
+            _state.value = UiState(movies = moviesRepository.findPopularMovies().results)
         }
     }
 
     fun onMovieClicked(movie: Movie) {
-        _state.value = _state.value.copy(
-            navigateTo = movie
-        )
+        _state.value = _state.value.copy(navigateTo = movie)
     }
 }
 
