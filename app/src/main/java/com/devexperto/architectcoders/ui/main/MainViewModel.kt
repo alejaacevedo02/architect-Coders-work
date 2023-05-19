@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devexperto.architectcoders.model.Movie
 import com.devexperto.architectcoders.model.MoviesRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -14,18 +17,16 @@ class MainViewModel(
 ) : ViewModel() {
 
 
-    private val _state = MutableLiveData(UiState())
-    val state: LiveData<UiState>
-        get() {
-            if (_state.value?.movies == null) {
-                refresh()
-            }
-            return _state
-        }
+    private val _state = MutableStateFlow(UiState())
+    val state: StateFlow<UiState> = _state.asStateFlow()
+
+    init {
+        refresh()
+    }
 
     private fun refresh() {
         viewModelScope.launch {
-            _state.value = _state.value?.copy(loading = true)
+            _state.value = _state.value.copy(loading = true)
             //Loading will be false after fetching movies
             _state.value = UiState(
                 movies = moviesRepository.findPopularMovies().results
@@ -34,7 +35,7 @@ class MainViewModel(
     }
 
     fun onMovieClicked(movie: Movie) {
-        _state.value = _state.value?.copy(
+        _state.value = _state.value.copy(
             navigateTo = movie
         )
     }
