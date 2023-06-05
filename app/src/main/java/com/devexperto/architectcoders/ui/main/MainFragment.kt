@@ -1,18 +1,13 @@
 package com.devexperto.architectcoders.ui.main
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.devexperto.architectcoders.R
 import com.devexperto.architectcoders.databinding.FragmentMainBinding
 import com.devexperto.architectcoders.model.MoviesRepository
-import com.devexperto.architectcoders.ui.common.PermissionRequester
-import com.devexperto.architectcoders.ui.launchAndCollect
-import com.devexperto.architectcoders.ui.visible
+import com.devexperto.architectcoders.ui.common.launchAndCollect
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
@@ -33,13 +28,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         val binding = FragmentMainBinding.bind(view).apply {
             recycler.adapter = adapter
         }
-        viewLifecycleOwner.launchAndCollect(viewModel.state) { binding.updateUI(it) }
+        viewLifecycleOwner.launchAndCollect(viewModel.state) {
+            binding.loading = it.loading
+            binding.movies = it.movies
+        }
         mainState.requestLocationPermission { viewModel.onUiReady() }
     }
-
-    private fun FragmentMainBinding.updateUI(state: UiState) {
-        progress.visible = state.loading
-        state.movies?.let(adapter::submitList)
-    }
 }
-
