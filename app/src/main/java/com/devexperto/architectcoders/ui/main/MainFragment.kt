@@ -20,7 +20,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
     }
 
-    private val adapter = MoviesAdapter { mainState.onMovieClicked(it) }
+    private val adapter = MoviesAdapter { mainState.onMovieClicked(it.id) }
     private lateinit var mainState: MainState
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

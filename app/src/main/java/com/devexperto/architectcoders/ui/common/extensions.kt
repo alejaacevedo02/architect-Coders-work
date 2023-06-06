@@ -46,7 +46,7 @@ fun <T> LifecycleOwner.launchAndCollect(
     body: (T) -> Unit
 ) {
     lifecycleScope.launch {
-        repeatOnLifecycle(state) {
+        this@launchAndCollect.repeatOnLifecycle(state) {
             flow.collect(body)
         }
     }
