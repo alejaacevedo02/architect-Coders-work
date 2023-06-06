@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.devexperto.architectcoders.R
 import com.devexperto.architectcoders.databinding.FragmentMainBinding
 import com.devexperto.architectcoders.model.MoviesRepository
+import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
 
 class MainFragment : Fragment(R.layout.fragment_main) {
@@ -14,7 +15,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     private val viewModel: MainViewModel by viewModels {
         MainViewModelFactory(
             MoviesRepository(
-                requireActivity().application
+                requireActivity().app
             )
         )
     }
