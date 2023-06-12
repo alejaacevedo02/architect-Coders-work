@@ -39,5 +39,6 @@ fun RemoteMovie.toLocalModel(): Movie = Movie(
     originalLanguage,
     originalTitle,
     popularity,
-    voteAverage
+    voteAverage,
+    false
 )

@@ -15,6 +15,7 @@ class DetailViewModel(
     private val repository: MoviesRepository
 ) : ViewModel() {
     private val _state = MutableStateFlow(UiState())
+
     val state: StateFlow<UiState> = _state.asStateFlow()
     init {
         viewModelScope.launch {
@@ -24,6 +25,11 @@ class DetailViewModel(
         }
     }
     class UiState(val movie: Movie? = null)
+    fun onFavoriteCLicked() {
+       viewModelScope.launch {
+           _state.value.movie?.let {  repository.switchFavorite(it)}
+       }
+    }
 }
 
 

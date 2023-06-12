@@ -13,14 +13,14 @@ interface MovieDao {
     fun getAll(): Flow<List<Movie>>
 
     @Query("SELECT * FROM Movie WHERE id == :id")
-    fun findById(id: Int): Flow<Movie>
+     fun findById(id: Int): Flow<Movie>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addMovies(movie: List<Movie>)
+    suspend fun addMovies(movie: List<Movie>)
 
     @Query("SELECT COUNT(id) FROM Movie")
-    fun movieCount(): Int
+    suspend fun movieCount(): Int
 
     @Update
-    fun updateMovie(movie: Movie)
+    suspend fun updateMovie(movie: Movie)
 }
