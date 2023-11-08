@@ -16,14 +16,14 @@ class MoviesRepository(application: App) {
     val popularMovies = localDataSource.movies
     fun findById(id: Int) = localDataSource.getById(id)
 
-    suspend fun requestPopularMovies() {
+    suspend fun requestPopularMovies(): Error? = tryCall {
         if (localDataSource.isEmpty()) {
             val movies = remoteDataSource.findPopularMovies(regionRepository.findLastRegion())
             localDataSource.save(movies.results.map { it.toLocalModel() })
         }
     }
 
-    suspend fun switchFavorite(movie: Movie) {
+    suspend fun switchFavorite(movie: Movie): Error? = tryCall{
         val updatedMovie = movie.copy(favorite = !movie.favorite)
         localDataSource.save(listOf(updatedMovie))
     }
