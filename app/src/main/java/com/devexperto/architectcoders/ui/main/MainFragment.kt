@@ -8,16 +8,20 @@ import com.devexperto.architectcoders.R
 import com.devexperto.architectcoders.data.Error
 import com.devexperto.architectcoders.databinding.FragmentMainBinding
 import com.devexperto.architectcoders.data.MoviesRepository
+import com.devexperto.architectcoders.domain.usecase.GetPopularMoviesUseCase
+import com.devexperto.architectcoders.domain.usecase.RequestPopularMoviesUseCase
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels {
+        val repository = MoviesRepository(
+            requireActivity().app
+        )
         MainViewModelFactory(
-            MoviesRepository(
-                requireActivity().app
-            )
+            RequestPopularMoviesUseCase(repository),
+            GetPopularMoviesUseCase(repository)
         )
     }
 
