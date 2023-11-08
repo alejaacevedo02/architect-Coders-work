@@ -1,4 +1,4 @@
-package com.devexperto.architectcoders.model.database
+package com.devexperto.architectcoders.data.database
 
 import androidx.room.Dao
 import androidx.room.Insert

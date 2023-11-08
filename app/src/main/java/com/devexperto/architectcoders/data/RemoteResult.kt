@@ -1,9 +1,7 @@
-package com.devexperto.architectcoders.model
+package com.devexperto.architectcoders.data
 
-import android.os.Parcelable
-import com.devexperto.architectcoders.model.database.Movie
+import com.devexperto.architectcoders.data.database.Movie
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 
 data class RemoteResult(
     val page: Int,

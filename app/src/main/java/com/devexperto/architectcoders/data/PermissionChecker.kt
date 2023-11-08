@@ -1,11 +1,8 @@
-package com.devexperto.architectcoders.model
+package com.devexperto.architectcoders.data
 
 import android.app.Application
 import android.content.pm.PackageManager
-import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
 
 class PermissionChecker(private val application: Application, private val permission: String) {
 
