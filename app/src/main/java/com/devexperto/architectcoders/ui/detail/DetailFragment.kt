@@ -8,18 +8,25 @@ import androidx.navigation.fragment.navArgs
 import com.devexperto.architectcoders.R
 import com.devexperto.architectcoders.databinding.FragmentDetailBinding
 import com.devexperto.architectcoders.data.MoviesRepository
+import com.devexperto.architectcoders.data.RegionRepository
 import com.devexperto.architectcoders.domain.usecases.FindMovieUseCase
 import com.devexperto.architectcoders.domain.usecases.SwitchMovieFavoriteUseCase
+import com.devexperto.architectcoders.framework.datasource.MovieRoomLocalDataSource
+import com.devexperto.architectcoders.framework.datasource.MovieServerDataSource
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
-
     private val viewModel: DetailViewModel by viewModels {
+        val localDataSource = MovieRoomLocalDataSource(requireActivity().app.db.movieDao())
+        val remoteDataSource = MovieServerDataSource(getString(R.string.api_key))
+        val regionRepository = RegionRepository(requireActivity().app)
         val repository = MoviesRepository(
-            requireActivity().app
+            regionRepository,
+            localDataSource,
+            remoteDataSource
         )
         DetailViewModelFactory(
             safeArgs.movieId,

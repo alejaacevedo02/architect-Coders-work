@@ -1,17 +1,14 @@
 package com.devexperto.architectcoders.data
 
-import com.devexperto.architectcoders.App
-import com.devexperto.architectcoders.R
+import com.devexperto.architectcoders.data.datasource.MovieLocalDataSource
+import com.devexperto.architectcoders.data.datasource.MovieRemoteDataSource
 import com.devexperto.architectcoders.domain.Movie
-import com.devexperto.architectcoders.framework.datasource.MovieRoomLocalDataSource
-import com.devexperto.architectcoders.framework.datasource.MovieServerDataSource
 
-class MoviesRepository(application: App) {
-    private val regionRepository = RegionRepository(application)
-    private val localDataSource = MovieRoomLocalDataSource(application.db.movieDao())
-    private val remoteDataSource = MovieServerDataSource(
-        application.getString(R.string.api_key)
-    )
+class MoviesRepository(
+    private val regionRepository: RegionRepository,
+    private val localDataSource: MovieLocalDataSource,
+    private val remoteDataSource: MovieRemoteDataSource
+) {
 
     val popularMovies = localDataSource.movies
     fun findById(id: Int) = localDataSource.getById(id)
@@ -23,7 +20,7 @@ class MoviesRepository(application: App) {
         }
     }
 
-    suspend fun switchFavorite(movie: Movie): Error? = tryCall{
+    suspend fun switchFavorite(movie: Movie): Error? = tryCall {
         val updatedMovie = movie.copy(favorite = !movie.favorite)
         localDataSource.save(listOf(updatedMovie))
     }
