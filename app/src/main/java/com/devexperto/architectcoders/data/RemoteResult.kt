@@ -1,6 +1,6 @@
 package com.devexperto.architectcoders.data
 
-import com.devexperto.architectcoders.data.database.Movie
+import com.devexperto.architectcoders.domain.Movie
 import com.google.gson.annotations.SerializedName
 
 data class RemoteResult(

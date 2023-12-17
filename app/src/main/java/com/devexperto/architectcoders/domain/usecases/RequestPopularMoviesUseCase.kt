@@ -1,4 +1,4 @@
-package com.devexperto.architectcoders.domain.usecase
+package com.devexperto.architectcoders.domain.usecases
 
 import com.devexperto.architectcoders.data.Error
 import com.devexperto.architectcoders.data.MoviesRepository

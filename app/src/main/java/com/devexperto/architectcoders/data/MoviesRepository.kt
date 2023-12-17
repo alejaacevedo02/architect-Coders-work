@@ -2,14 +2,14 @@ package com.devexperto.architectcoders.data
 
 import com.devexperto.architectcoders.App
 import com.devexperto.architectcoders.R
-import com.devexperto.architectcoders.data.database.Movie
-import com.devexperto.architectcoders.data.datasource.MovieLocalDataSource
-import com.devexperto.architectcoders.data.datasource.MovieRemoteDataSource
+import com.devexperto.architectcoders.domain.Movie
+import com.devexperto.architectcoders.framework.datasource.MovieRoomLocalDataSource
+import com.devexperto.architectcoders.framework.datasource.MovieServerDataSource
 
 class MoviesRepository(application: App) {
     private val regionRepository = RegionRepository(application)
-    private val localDataSource = MovieLocalDataSource(application.db.movieDao())
-    private val remoteDataSource = MovieRemoteDataSource(
+    private val localDataSource = MovieRoomLocalDataSource(application.db.movieDao())
+    private val remoteDataSource = MovieServerDataSource(
         application.getString(R.string.api_key)
     )
 
@@ -19,7 +19,7 @@ class MoviesRepository(application: App) {
     suspend fun requestPopularMovies(): Error? = tryCall {
         if (localDataSource.isEmpty()) {
             val movies = remoteDataSource.findPopularMovies(regionRepository.findLastRegion())
-            localDataSource.save(movies.results.map { it.toLocalModel() })
+            localDataSource.save(movies)
         }
     }
 

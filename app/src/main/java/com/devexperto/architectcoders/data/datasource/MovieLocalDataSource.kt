@@ -1,17 +1,16 @@
 package com.devexperto.architectcoders.data.datasource
 
-import com.devexperto.architectcoders.data.database.Movie
-import com.devexperto.architectcoders.data.database.MovieDao
+import com.devexperto.architectcoders.framework.database.MovieDao
+import com.devexperto.architectcoders.framework.database.Movie as DbMovie
+import com.devexperto.architectcoders.domain.Movie
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class MovieLocalDataSource(private val movieDao: MovieDao) {
-    val movies: Flow<List<Movie>> = movieDao.getAll()
+interface MovieLocalDataSource {
+    val movies: Flow<List<Movie>>
 
-    suspend fun save(movies: List<Movie>) {
-        movieDao.addMovies(movies)
-    }
+    suspend fun save(movies: List<Movie>)
+    fun getById(id: Int): Flow<Movie>
 
-    fun getById(id: Int): Flow<Movie> = movieDao.findById(id)
-
-   suspend  fun isEmpty(): Boolean =  movieDao.movieCount() == 0
+    suspend fun isEmpty(): Boolean
 }
