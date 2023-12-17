@@ -11,8 +11,8 @@ import com.devexperto.architectcoders.data.MoviesRepository
 import com.devexperto.architectcoders.data.RegionRepository
 import com.devexperto.architectcoders.domain.usecases.FindMovieUseCase
 import com.devexperto.architectcoders.domain.usecases.SwitchMovieFavoriteUseCase
-import com.devexperto.architectcoders.framework.datasource.MovieRoomLocalDataSource
-import com.devexperto.architectcoders.framework.datasource.MovieServerDataSource
+import com.devexperto.architectcoders.framework.database.MovieRoomLocalDataSource
+import com.devexperto.architectcoders.framework.server.MovieServerDataSource
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
 

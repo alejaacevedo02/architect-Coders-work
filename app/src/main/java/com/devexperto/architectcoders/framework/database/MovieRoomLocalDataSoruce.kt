@@ -1,8 +1,7 @@
-package com.devexperto.architectcoders.framework.datasource
+package com.devexperto.architectcoders.framework.database
 
 import com.devexperto.architectcoders.data.datasource.MovieLocalDataSource
 import com.devexperto.architectcoders.domain.Movie
-import com.devexperto.architectcoders.framework.database.MovieDao
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
