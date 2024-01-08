@@ -13,7 +13,7 @@ class MovieDetailInfoView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    fun setMovie(movie: Movie) = with(movie) {
+    fun setMovie(movie: com.devexperto.architectcoders.domain.Movie) = with(movie) {
         text = buildSpannedString {
 
             bold { append("Original language: ") }

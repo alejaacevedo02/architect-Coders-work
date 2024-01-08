@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devexperto.architectcoders.domain.Error
-import com.devexperto.architectcoders.domain.toError
+import com.devexperto.architectcoders.data.toError
 import com.devexperto.architectcoders.domain.Movie
-import com.devexperto.architectcoders.domain.usecases.FindMovieUseCase
-import com.devexperto.architectcoders.domain.usecases.SwitchMovieFavoriteUseCase
+import com.devexperto.architectcoders.usecases.FindMovieUseCase
+import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

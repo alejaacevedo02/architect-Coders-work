@@ -5,22 +5,28 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.devexperto.architectcoders.R
+import com.devexperto.architectcoders.data.AndroidPermissionChecker
 import com.devexperto.architectcoders.data.MoviesRepository
+import com.devexperto.architectcoders.data.PlayServicesLocationDataSource
 import com.devexperto.architectcoders.data.RegionRepository
 import com.devexperto.architectcoders.databinding.FragmentMainBinding
-import com.devexperto.architectcoders.domain.usecases.GetPopularMoviesUseCase
-import com.devexperto.architectcoders.domain.usecases.RequestPopularMoviesUseCase
-import com.devexperto.architectcoders.framework.database.MovieRoomLocalDataSource
-import com.devexperto.architectcoders.framework.server.MovieServerDataSource
+import com.devexperto.architectcoders.data.database.MovieRoomLocalDataSource
+import com.devexperto.architectcoders.data.server.MovieServerDataSource
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
+import com.devexperto.architectcoders.usecases.GetPopularMoviesUseCase
+import com.devexperto.architectcoders.usecases.RequestPopularMoviesUseCase
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     private val viewModel: MainViewModel by viewModels {
+        val application = requireActivity().app
         val localDataSource = MovieRoomLocalDataSource(requireActivity().app.db.movieDao())
         val remoteDataSource = MovieServerDataSource(getString(R.string.api_key))
-        val regionRepository = RegionRepository(requireActivity().app)
+        val regionRepository = RegionRepository(
+            PlayServicesLocationDataSource(application),
+            AndroidPermissionChecker(application)
+        )
         val repository = MoviesRepository(
             regionRepository,
             localDataSource,
@@ -28,7 +34,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         )
         MainViewModelFactory(
             RequestPopularMoviesUseCase(repository),
-            GetPopularMoviesUseCase(repository)
+           GetPopularMoviesUseCase(repository)
         )
     }
 
