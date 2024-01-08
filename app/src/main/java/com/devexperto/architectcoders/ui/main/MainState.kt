@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.devexperto.architectcoders.R
-import com.devexperto.architectcoders.data.Error
+import com.devexperto.architectcoders.domain.Error
 import com.devexperto.architectcoders.ui.common.PermissionRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -30,10 +30,10 @@ class MainState(
         }
     }
 
-    fun errorToString(error: Error) = when (error) {
-        Error.Connectivity -> context.getString(R.string.connectivity_error)
-        is Error.Server -> context.getString(R.string.server_error, error.code)
-        is Error.Unknown -> context.getString(R.string.unknown_error, error.message)
+    fun errorToString(error: com.devexperto.architectcoders.domain.Error) = when (error) {
+        com.devexperto.architectcoders.domain.Error.Connectivity -> context.getString(R.string.connectivity_error)
+        is com.devexperto.architectcoders.domain.Error.Server -> context.getString(R.string.server_error, error.code)
+        is com.devexperto.architectcoders.domain.Error.Unknown -> context.getString(R.string.unknown_error, error.message)
     }
 
 }
