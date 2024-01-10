@@ -45,6 +45,7 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":usecases"))
+    implementation("io.insert-koin:koin-android:3.1.5")
     implementation("io.arrow-kt:arrow-core:1.2.0")
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
