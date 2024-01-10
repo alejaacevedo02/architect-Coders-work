@@ -24,9 +24,12 @@ import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
+import org.koin.core.module.dsl.factoryOf
 import org.koin.core.qualifier.named
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun Application.initDi() {
@@ -44,57 +47,27 @@ private val appModule = module {
             MovieDataBase::class.java, "movie-db"
         ).build()
     }
-    factory<MovieLocalDataSource> { MovieRoomLocalDataSource(get()) }
     factory<MovieRemoteDataSource> {
         MovieServerDataSource(get(named("apiKey")))
 
     }
-    single { get<MovieDataBase>().movieDao() }
     single(named("apiKey")) { androidContext().getString(R.string.api_key) }
-
-    factory<LocationDataSource> { PlayServicesLocationDataSource(get()) }
-    factory<PermissionChecker> { AndroidPermissionChecker(get()) }
-    viewModel { MainViewModel(get(), get()) }
-    viewModel { (id: Int) -> DetailViewModel(id, get(), get()) }
+    single { get<MovieDataBase>().movieDao() }
+    factoryOf(::MovieRoomLocalDataSource) bind MovieLocalDataSource::class
+    factoryOf(::PlayServicesLocationDataSource) bind LocationDataSource::class
+    factoryOf(::AndroidPermissionChecker) bind PermissionChecker::class
+    viewModelOf(::MainViewModel)
+    viewModelOf(::DetailViewModel)
 }
 
 
 private val dataModule = module {
-    factory {
-        RegionRepository(
-            locationDataSource = get(),
-            permissionChecker = get()
-        )
-    }
-    factory {
-        MoviesRepository(
-            regionRepository = get(),
-            localDataSource = get(),
-            remoteDataSource = get()
-        )
-    }
+    factoryOf(::MoviesRepository)
+    factoryOf(::RegionRepository)
 }
 private val useCasesModule = module {
-    factory {
-        FindMovieUseCase(
-            moviesRepository = get()
-        )
-
-    }
-    factory {
-        GetPopularMoviesUseCase(
-            moviesRepository = get()
-        )
-    }
-
-    factory {
-        RequestPopularMoviesUseCase(
-            moviesRepository = get()
-        )
-    }
-    factory {
-        SwitchMovieFavoriteUseCase(
-            moviesRepository = get()
-        )
-    }
+    factoryOf(::SwitchMovieFavoriteUseCase)
+    factoryOf(::RequestPopularMoviesUseCase)
+    factoryOf(::GetPopularMoviesUseCase)
+    factoryOf(::FindMovieUseCase)
 }
