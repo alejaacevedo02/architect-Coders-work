@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
+    id("kotlin-kapt")
 }
 
 android {
@@ -62,6 +63,9 @@ dependencies {
     kapt("androidx.room:room-compiler:2.5.1")
     implementation("com.github.bumptech.glide:glide:4.13.1")
     kapt("com.github.bumptech.glide:compiler:4.13.1")
+
+    implementation("com.google.dagger:dagger:2.51")
+    kapt("com.google.dagger:dagger-compiler:2.51")
 
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

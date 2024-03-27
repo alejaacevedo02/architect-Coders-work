@@ -18,26 +18,7 @@ import com.devexperto.architectcoders.usecases.GetPopularMoviesUseCase
 import com.devexperto.architectcoders.usecases.RequestPopularMoviesUseCase
 
 class MainFragment : Fragment(R.layout.fragment_main) {
-
-    private val viewModel: MainViewModel by viewModels {
-        val application = requireActivity().app
-        val localDataSource = MovieRoomLocalDataSource(requireActivity().app.db.movieDao())
-        val remoteDataSource = MovieServerDataSource(getString(R.string.api_key))
-        val regionRepository = RegionRepository(
-            PlayServicesLocationDataSource(application),
-            AndroidPermissionChecker(application)
-        )
-        val repository = MoviesRepository(
-            regionRepository,
-            localDataSource,
-            remoteDataSource
-        )
-        MainViewModelFactory(
-            RequestPopularMoviesUseCase(repository),
-           GetPopularMoviesUseCase(repository)
-        )
-    }
-
+    private val viewModel : MainViewModel by viewModels {  app.component.mainViewModelFactory}
     private val adapter = MoviesAdapter { mainState.onMovieClicked(it.id) }
     private lateinit var mainState: MainState
 

@@ -31,3 +31,8 @@ android {
         jvmTarget = "1.8"
     }
 }
+dependencies {
+    implementation("androidx.test:monitor:1.6.1")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
+    androidTestImplementation("junit:junit:4.12")
+}

@@ -22,23 +22,7 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
     private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
-        val application = requireActivity().app
-        val localDataSource = MovieRoomLocalDataSource(requireActivity().app.db.movieDao())
-        val remoteDataSource = MovieServerDataSource(getString(R.string.api_key))
-        val regionRepository = RegionRepository(
-            PlayServicesLocationDataSource(application),
-            AndroidPermissionChecker(application)
-        )
-        val repository = MoviesRepository(
-            regionRepository,
-            localDataSource,
-            remoteDataSource
-        )
-        DetailViewModelFactory(
-            safeArgs.movieId,
-            FindMovieUseCase(repository),
-            SwitchMovieFavoriteUseCase(repository)
-        )
+        app.component.detailViewModelFactory
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

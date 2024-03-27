@@ -3,17 +3,17 @@ package com.devexperto.architectcoders
 import android.app.Application
 import androidx.room.Room
 import com.devexperto.architectcoders.data.database.MovieDataBase
+import com.devexperto.architectcoders.di.AppComponent
+import com.devexperto.architectcoders.di.DaggerAppComponent
 
 class App : Application() {
-
-    lateinit var db: MovieDataBase
+    lateinit var component: AppComponent
         private set
 
     override fun onCreate() {
         super.onCreate()
-        db = Room.databaseBuilder(
-            this,
-            MovieDataBase::class.java, "movie-db"
-        ).build()
+        component = DaggerAppComponent
+            .factory()
+            .create(this)
     }
 }
