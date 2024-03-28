@@ -6,29 +6,24 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.devexperto.architectcoders.R
-import com.devexperto.architectcoders.data.AndroidPermissionChecker
 import com.devexperto.architectcoders.databinding.FragmentDetailBinding
-import com.devexperto.architectcoders.data.MoviesRepository
-import com.devexperto.architectcoders.data.PlayServicesLocationDataSource
-import com.devexperto.architectcoders.data.RegionRepository
-import com.devexperto.architectcoders.data.database.MovieRoomLocalDataSource
-import com.devexperto.architectcoders.data.server.MovieServerDataSource
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
-import com.devexperto.architectcoders.ui.main.MainFragmentModule
-import com.devexperto.architectcoders.usecases.FindMovieUseCase
-import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
+import javax.inject.Inject
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
-    private lateinit var component: DetailFragmentComponent
+
+    @Inject
+    private lateinit var vmFactory: DetailViewModelAssistedFactory
     private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
-        component.detailViewModelFactory
+        //Assisted factory creation to pass arguments manually
+        vmFactory.create(safeArgs.movieId)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component = app.component.plus(DetailFragmentModule(safeArgs.movieId))
+        app.component.inject(DetailFragment())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

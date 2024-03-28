@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class MainViewModel(
     private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
@@ -46,7 +47,7 @@ data class UiState(
     val error: Error? = null
 )
 
-class MainViewModelFactory(
+class MainViewModelFactory @Inject constructor(
     private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) :
