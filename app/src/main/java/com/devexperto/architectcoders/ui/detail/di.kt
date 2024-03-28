@@ -1,34 +1,29 @@
-package com.devexperto.architectcoders.di
+package com.devexperto.architectcoders.ui.detail
 
-import com.devexperto.architectcoders.ui.detail.DetailViewModelFactory
-import com.devexperto.architectcoders.ui.main.MainViewModelFactory
 import com.devexperto.architectcoders.usecases.FindMovieUseCase
 import com.devexperto.architectcoders.usecases.GetPopularMoviesUseCase
 import com.devexperto.architectcoders.usecases.RequestPopularMoviesUseCase
 import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
 import dagger.Module
 import dagger.Provides
+import dagger.Subcomponent
 
 @Module
-object ViewModelsModule {
-
-    @Provides
-    fun provideMainViewModelFactory(
-        getPopularMoviesUseCase: GetPopularMoviesUseCase,
-        requestPopularMoviesUseCase: RequestPopularMoviesUseCase
-    ) = MainViewModelFactory(
-        getPopularMoviesUseCase = getPopularMoviesUseCase,
-        requestPopularMoviesUseCase = requestPopularMoviesUseCase
-    )
-
+class DetailFragmentModule(private val movieId: Int) {
     @Provides
     fun provideDetailViewModelFactory(
         findMovieUseCase: FindMovieUseCase,
         switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
     ) = DetailViewModelFactory(
-        movieId = -1,
+        movieId = movieId,
         findMovieUseCase = findMovieUseCase,
         switchMovieFavoriteUseCase = switchMovieFavoriteUseCase
     )
 
+
+}
+
+@Subcomponent(modules = [DetailFragmentModule::class])
+interface DetailFragmentComponent{
+    val detailViewModelFactory : DetailViewModelFactory
 }

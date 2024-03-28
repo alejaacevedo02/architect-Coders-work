@@ -3,11 +3,13 @@ package com.devexperto.architectcoders.data.server
 import arrow.core.Either
 import com.devexperto.architectcoders.data.datasource.MovieRemoteDataSource
 import com.devexperto.architectcoders.data.tryCall
+import com.devexperto.architectcoders.di.ApiKey
 import com.devexperto.architectcoders.domain.Error
 import com.devexperto.architectcoders.domain.Movie
+import javax.inject.Inject
 
-class MovieServerDataSource(
-    private val apiKey: String,
+class MovieServerDataSource @Inject constructor(
+    @ApiKey private val apiKey: String,
 ) : MovieRemoteDataSource {
 // As we depend on the model of the server we need to do a refactoring.
 

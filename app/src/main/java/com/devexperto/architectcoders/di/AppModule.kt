@@ -2,7 +2,6 @@ package com.devexperto.architectcoders.di
 
 import android.app.Application
 import androidx.room.Room
-import androidx.room.RoomDatabase
 import com.devexperto.architectcoders.R
 import com.devexperto.architectcoders.data.AndroidPermissionChecker
 import com.devexperto.architectcoders.data.PermissionChecker
@@ -13,9 +12,9 @@ import com.devexperto.architectcoders.data.datasource.LocationDataSource
 import com.devexperto.architectcoders.data.datasource.MovieLocalDataSource
 import com.devexperto.architectcoders.data.datasource.MovieRemoteDataSource
 import com.devexperto.architectcoders.data.server.MovieServerDataSource
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -36,18 +35,22 @@ object AppModule {
     ).build()
 
     @Provides
-    fun provideRemoteDataSource(@ApiKey apiKey: String): MovieRemoteDataSource =
-        MovieServerDataSource(apiKey)
+    @Singleton
+    fun provideMovieDao(db: MovieDataBase) = db.movieDao()
+}
 
-    @Provides
-    fun provideLocalDataSource(db: MovieDataBase): MovieLocalDataSource =
-        MovieRoomLocalDataSource(db.movieDao())
+@Module
+abstract class AppDataModule {
 
-    @Provides
-    fun provideLocationDataSource(app: Application): LocationDataSource =
-        PlayServicesLocationDataSource(app)
+    @Binds
+    abstract fun bindRemoteDataSource(remoteDataSource: MovieServerDataSource): MovieRemoteDataSource
 
-    @Provides
-    fun providePermissionChecker(app: Application): PermissionChecker =
-        AndroidPermissionChecker(app)
+    @Binds
+    abstract fun bindLocalDataSource(localDataSource: MovieRoomLocalDataSource): MovieLocalDataSource
+
+    @Binds
+    abstract fun bindLocationDataSource(locationDataSource: PlayServicesLocationDataSource): LocationDataSource
+
+    @Binds
+    abstract fun bindPermissionChecker(permissionChecker: AndroidPermissionChecker): PermissionChecker
 }

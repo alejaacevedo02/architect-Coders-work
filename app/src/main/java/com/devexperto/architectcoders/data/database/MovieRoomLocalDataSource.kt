@@ -6,9 +6,10 @@ import com.devexperto.architectcoders.domain.Movie
 import com.devexperto.architectcoders.domain.Error
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 import com.devexperto.architectcoders.data.database.Movie as DbMovie
 
-class MovieRoomLocalDataSource(private val movieDao: MovieDao) : MovieLocalDataSource {
+class MovieRoomLocalDataSource @Inject constructor(private val movieDao: MovieDao) : MovieLocalDataSource {
     override val movies: Flow<List<Movie>> = movieDao.getAll().map { it.toDomainModel() }
 
     override suspend fun isEmpty(): Boolean = movieDao.movieCount() == 0

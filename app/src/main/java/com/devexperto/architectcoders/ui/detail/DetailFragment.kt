@@ -15,14 +15,20 @@ import com.devexperto.architectcoders.data.database.MovieRoomLocalDataSource
 import com.devexperto.architectcoders.data.server.MovieServerDataSource
 import com.devexperto.architectcoders.ui.common.app
 import com.devexperto.architectcoders.ui.common.launchAndCollect
+import com.devexperto.architectcoders.ui.main.MainFragmentModule
 import com.devexperto.architectcoders.usecases.FindMovieUseCase
 import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
 
 class DetailFragment : Fragment(R.layout.fragment_detail) {
-
+    private lateinit var component: DetailFragmentComponent
     private val safeArgs: DetailFragmentArgs by navArgs()
     private val viewModel: DetailViewModel by viewModels {
-        app.component.detailViewModelFactory
+        component.detailViewModelFactory
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        component = app.component.plus(DetailFragmentModule(safeArgs.movieId))
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

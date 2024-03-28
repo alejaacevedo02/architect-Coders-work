@@ -1,25 +1,24 @@
 package com.devexperto.architectcoders.di
 
 import android.app.Application
-import com.devexperto.architectcoders.ui.detail.DetailViewModelFactory
-import com.devexperto.architectcoders.ui.main.MainViewModelFactory
+import com.devexperto.architectcoders.ui.detail.DetailFragmentComponent
+import com.devexperto.architectcoders.ui.detail.DetailFragmentModule
+import com.devexperto.architectcoders.ui.main.MainFragmentComponent
+import com.devexperto.architectcoders.ui.main.MainFragmentModule
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Component.Factory
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [UseCasesModule::class, DataModule::class,
-        AppModule::class, ViewModelsModule::class]
+    modules = [AppModule::class, AppDataModule::class]
 )
 interface AppComponent {
-
-    val mainViewModelFactory : MainViewModelFactory
-    val detailViewModelFactory : DetailViewModelFactory
+    fun plus(mainFragmentModule: MainFragmentModule): MainFragmentComponent
+    fun plus(detailFragmentModule: DetailFragmentModule): DetailFragmentComponent
 
     @Component.Factory
     interface Factory {
-        fun create(@BindsInstance app:  Application) : AppComponent
+        fun create(@BindsInstance app: Application): AppComponent
     }
 }
