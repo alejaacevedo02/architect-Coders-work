@@ -8,6 +8,7 @@ import com.devexperto.architectcoders.data.toError
 import com.devexperto.architectcoders.domain.Movie
 import com.devexperto.architectcoders.usecases.RequestPopularMoviesUseCase
 import com.devexperto.architectcoders.usecases.GetPopularMoviesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +17,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MainViewModel(
+//No need to declare the VMFactory when using this declaration, just like Koin
+@HiltViewModel
+class MainViewModel @Inject constructor(
     private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
     private val getPopularMoviesUseCase: GetPopularMoviesUseCase
 ) : ViewModel() {
@@ -46,17 +49,3 @@ data class UiState(
     val movies: List<Movie>? = null,
     val error: Error? = null
 )
-
-class MainViewModelFactory @Inject constructor(
-    private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
-) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(
-            requestPopularMoviesUseCase,
-            getPopularMoviesUseCase
-        ) as T
-    }
-
-}

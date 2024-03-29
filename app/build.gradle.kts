@@ -66,7 +66,6 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.51")
     kapt("com.google.dagger:hilt-compiler:2.51")
-git
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.2")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")

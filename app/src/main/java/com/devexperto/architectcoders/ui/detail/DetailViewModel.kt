@@ -1,5 +1,6 @@
 package com.devexperto.architectcoders.ui.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -11,18 +12,25 @@ import com.devexperto.architectcoders.usecases.SwitchMovieFavoriteUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailViewModel(
-    movieId: Int,
+@HiltViewModel
+class DetailViewModel @Inject constructor(
+    //give Info to viewModel from injector, pass extras or arguments
+   savedStateHandle: SavedStateHandle,
     private val findMovieUseCase: FindMovieUseCase,
     private val switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
 ) : ViewModel() {
+
+    //access to the id with SavedStateHandle
+    private val movieId = DetailFragmentArgs.fromSavedStateHandle(savedStateHandle).movieId
     private val _state = MutableStateFlow(UiState())
 
     val state: StateFlow<UiState> = _state.asStateFlow()
@@ -50,23 +58,4 @@ class DetailViewModel(
             }
         }
     }
-}
-
-    @Suppress("UNCHECKED_CAST")
-    class DetailViewModelFactory @AssistedInject constructor(
-       @Assisted private val movieId: Int,
-        private val findMovieUseCase: FindMovieUseCase,
-        private val switchMovieFavoriteUseCase: SwitchMovieFavoriteUseCase
-    ) :
-        ViewModelProvider.
-        Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return DetailViewModel(movieId, findMovieUseCase, switchMovieFavoriteUseCase) as T
-        }
-    }
-
-
-@AssistedFactory
-interface DetailViewModelAssistedFactory{
-    fun create(movieId: Int) : DetailViewModelFactory
 }
