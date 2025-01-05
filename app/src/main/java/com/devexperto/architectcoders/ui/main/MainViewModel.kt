@@ -1,7 +1,6 @@
 package com.devexperto.architectcoders.ui.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.devexperto.architectcoders.domain.Error
 import com.devexperto.architectcoders.data.toError
@@ -46,16 +45,3 @@ data class UiState(
     val error: Error? = null
 )
 
-class MainViewModelFactory(
-    private val requestPopularMoviesUseCase: RequestPopularMoviesUseCase,
-    private val getPopularMoviesUseCase: GetPopularMoviesUseCase
-) :
-    ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MainViewModel(
-            requestPopularMoviesUseCase,
-            getPopularMoviesUseCase
-        ) as T
-    }
-
-}
